@@ -1,0 +1,15 @@
+{
+    "name": "chandan/mdsyctc",
+    "autoload": {
+        "psr-4": {
+            "Chandan\\Mdsyctc\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Chandan Bhanja",
+            "email": "chandanbhanja290@gmail.com"
+        }
+    ],
+    "require": {}
+}
