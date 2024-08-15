@@ -1,4 +1,39 @@
-<?php include"header.php"; ?>
+<?php 
+    include "header.php"; 
+    include "database.php";
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $errors = array(); // Array to hold validation errors
+        $name = strtoupper(mysqli_real_escape_string($con, $_POST['name']));
+        $email = mysqli_real_escape_string($con, $_POST['email']);
+        $mobile = mysqli_real_escape_string($con, $_POST['mobile']);
+        $address = strtoupper(mysqli_real_escape_string($con, $_POST['address']));
+        $message = strtoupper(mysqli_real_escape_string($con, $_POST['message']));
+
+        if (empty($name)) $errors['name'] = "Name is required.";
+        if (empty($email)) $errors['email'] = "Email is required.";
+        if (empty($mobile)) $errors['mobile'] = "Mobile number is required.";
+        if (empty($address)) $errors['address'] = "Address is required.";
+        if (empty($message)) $errors['message'] = "Message is required.";
+
+        if (empty($errors)) {
+            $query = "INSERT INTO `callbacktb` (`name`, `email`, `mobile`, `address`, `askquery`) 
+                      VALUES ('$name', '$email', '$mobile', '$address', '$message')";
+            if (mysqli_query($con, $query)) {
+                include"admin/del_modal.php";
+                echo "<script>
+                        alert('We will contact you soon.');
+                        window.location.href = 'index.php';
+                      </script>";
+            } else {
+                echo "<script>
+                        alert('Something went wrong!');
+                      </script>";
+            }
+        }
+    }
+?>
+
 
 <div class="edu-breadcrumb-area">
     <div class="container">
@@ -60,22 +95,25 @@
             <div class="offset-xl-2 col-lg-6">
                 <div class="contact-form form-style-2">
                     <div class="section-title">
-                        <h4 class="title">Get In Touch</h4>
-                        <p>Fill out this form for booking a consultant advising session.</p>
+                        <h4 class="title">Ask Query</h4>
+                        <p>Fill out this form for contact with you.</p>
                     </div>
-                    <form class="rnt-contact-form rwt-dynamic-form" id="contact-form" method="POST" action="https://edublink.html.devsblink.com/mail.php">
+                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
                         <div class="row row--10">
                             <div class="form-group col-12">
-                                <input type="text" name="contact-name" id="contact-name" placeholder="Your name">
+                                <input type="text" name="name" id="contact-name" placeholder="Your name" required>
                             </div>
                             <div class="form-group col-12">
-                                <input type="email" name="contact-email" id="contact-email" placeholder="Enter your email">
+                                <input type="email" name="email" id="contact-email" placeholder="Email" required>
                             </div>
                             <div class="form-group col-12">
-                                <input type="tel" name="contact-phone" id="contact-phone" placeholder="Phone number">
+                                <input type="text" name="mobile" id="contact-phone" placeholder="Phone number" maxlength="10" minlength="10" required>
                             </div>
                             <div class="form-group col-12">
-                                <textarea name="contact-message" id="contact-message" cols="30" rows="4" placeholder="Your message"></textarea>
+                                <input type="tel" name="address" id="contact-phone" placeholder="Address" required>
+                            </div>
+                            <div class="form-group col-12">
+                                <textarea name="message" id="message" cols="30" rows="4" placeholder="Message"></textarea>
                             </div>
                             <div class="form-group col-12">
                                 <button class="rn-btn edu-btn btn-medium submit-btn" name="submit" type="submit">Submit Message <i class="icon-4"></i></button>

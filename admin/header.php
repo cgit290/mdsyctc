@@ -887,7 +887,7 @@
                             </div>
                         </li>
 
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarAdvanceUI" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAdvanceUI">
                                 <i class="ri-stack-line"></i> <span data-key="t-advance-ui">Notice</span>
                             </a>
@@ -901,7 +901,13 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="notice.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+                                <i class="ri-stack-line"></i> <span data-key="t-dashboards">Notice</span>
+                            </a>
+                            
+                        </li> 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="session.php" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                                 <i class="ri-map-pin-time-line"></i> <span data-key="t-dashboards">Session</span>

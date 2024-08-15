@@ -1,6 +1,7 @@
 <?php 
     include"database.php";
     include"header.php";
+    
 ?>
 <div class="edu-breadcrumb-area">
     <div class="container">
@@ -35,7 +36,12 @@
             <div class="container">
                 <div class="edu-sorting-area">
                     <div class="sorting-left">
-                        <h6 class="showing-text">We found <span>24</span> courses available for you</h6>
+                        <?php
+                         $query="select * from coursetb";
+                         $result=mysqli_query($con,$query);
+                         $num_row=mysqli_num_rows($result);
+                        ?>
+                        <h6 class="showing-text">We found <span><?php echo "$num_row" ?></span> courses available for you</h6>
                     </div>
                     <!-- <div class="sorting-right">
                         <div class="layout-switcher">
@@ -60,17 +66,20 @@
                 <div class="row g-5">
                     <!-- Start Single Course  -->
                     <?php
-                        $query="select department,course,coursename,duration,fees,eligibility from coursetb";
+                        $query="select department,course,coursename,duration,fees,eligibility,thumbnail from coursetb";
                         $result=mysqli_query($con,$query);
                         $num_row=mysqli_num_rows($result);
+                        
                         while($row=mysqli_fetch_array($result,MYSQLI_NUM))
                         {
+                            
                             $dept=$row[0];
                             $course=$row[1];
                             $fcourse=$row[2];
                             $dura=$row[3];
                             $fees=$row[4];
                             $elig=$row[5];
+                            $pic=$row[6];
 
                             //Deparment Short name
                             $ddpt1=strtok($dept," ");
@@ -82,7 +91,7 @@
                                     <div class="inner">
                                         <div class="thumbnail">
                                             <a href="<?php echo strtolower($dname); ?>.php">
-                                                <img src="assets/images/course/<?php echo "$dname"; ?>.jpg" alt="Course Meta">
+                                                <img src="admin/uploads/course/<?php echo "$pic"; ?>" alt="Course Meta">
                                             </a>
                                             <div class="time-top">
                                                 <span class="duration"><i class="icon-61"></i><?php echo "$dura"; ?></span>
