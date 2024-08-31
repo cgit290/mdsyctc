@@ -1,33 +1,14 @@
 <?php
-session_start();
-ob_start();
-if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
-    header("Location: login.php");
-    exit();
-}
+
 include"header.php"; 
 include"../database.php"; 
 
-$username=$_SESSION['username'];
-$password=$_SESSION['password'];
-$id="";
-$department="";
-$course="";
-$coursename="";
-$duration="";
-$eligibility="";
-$fees="";
-$admamount="";
-$insamount="";
-$nofinstallment="";
-$syllabus="";
-$photo="";
+
+$id=$_GET['id'];
+
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-    if($_POST['submit']=='edit'){
-       $id=$_POST['id'];
-    }
     if($_POST['submit']=='add'){
         $id=$_POST['id'];
         $dept=$_POST['dept'];
@@ -188,7 +169,8 @@ ob_end_flush();
                                             <div class="row">
                                                 <div class="mb-3 col-md-3">
                                                     <label for="" class="form-label">Duration<span class="text-danger"> *</span></label>
-                                                    <select name="duration" id="edate" class="form-control" value="<?php echo $duration; ?>" required>
+                                                    <select name="duration" id="edate" class="form-control" required >
+                                                        <option value="<?php echo $duration; ?>"><?php echo $duration; ?></option>
                                                         <option value="6 Months">6 Months</option>
                                                         <option value="12 Months">12 Months</option>
                                                         <option value="18 Months">18 Months</option>

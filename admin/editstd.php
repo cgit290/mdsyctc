@@ -2,9 +2,7 @@
 
 include"header.php"; 
 include"../database.php"; 
-    $rid1 = 1;
-    $stdid=1;
-
+$id=$_GET['id'];
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors = array(); // Array to hold validation errors
 
@@ -152,7 +150,7 @@ include"../database.php";
                     <div class="h-100">
                         <div class="card p-3">
                             <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">New Student Data Entry Form</h4>
+                                <h4 class="card-title mb-0 flex-grow-1">Edit Student Details</h4>
                                 <div class="flex-shrink-0">
                                     <!-- <div class="form-check form-switch form-switch-right form-switch-md">
                                         <label for="form-grid-showcode" class="form-label text-muted">Show Code</label>
@@ -162,6 +160,7 @@ include"../database.php";
                             </div><!-- end card header -->
                             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
                                 <div class="row">
+                                    
                                     <div class="mb-3 col-md-4">
                                     <label for="" class="form-label">Select Session<span class="text-danger"> *</span></label>
                                     <select class="form-select" name="ses1" id="mySes" required style="font-size: 11pt;">

@@ -1,3 +1,14 @@
+<?php
+    session_start();
+    ob_start();
+    if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
+        header("Location: login.php");
+        exit();
+    }
+    $username=$_SESSION['username'];
+    $password=$_SESSION['password'];    
+?>
+
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 <head>
@@ -1228,11 +1239,11 @@
         </div>
     </div>
 
-    <div class="customizer-setting d-none d-md-block">
+    <!-- <div class="customizer-setting d-none d-md-block">
         <div class="btn-info rounded-pill shadow-lg btn btn-icon btn-lg p-2" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas" aria-controls="theme-settings-offcanvas">
             <i class='mdi mdi-spin mdi-cog-outline fs-22'></i>
         </div>
-    </div>
+    </div> -->
 
     <!-- Theme Settings -->
     <div class="offcanvas offcanvas-end border-0" tabindex="-1" id="theme-settings-offcanvas">

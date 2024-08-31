@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <!-- auth page content -->
-        <div class="auth-page-content" >
+        <div class="auth-page-content" style="padding-bottom:35px">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">

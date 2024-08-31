@@ -1,11 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
-    header("Location: login.php");
-    exit();
-}
-$username=$_SESSION['username'];
-$password=$_SESSION['password'];
+
 include"header.php"; 
 include"../database.php"; 
 
@@ -82,11 +76,18 @@ include"../database.php";
                                                 <tbody class="list form-check-all">
                                                     <tr>
                                                         <?php
-                                                            $query="select areg,sname,sfname,course,adate,verify from admissiontb";
+                                                            $query="select areg,sname,sfname,course,adate,verify,stdid from admissiontb";
                                                             $result=mysqli_query($con,$query);
                                                             while($row=mysqli_fetch_array($result,MYSQLI_NUM))
                                                             {
                                                                 $i=$i+1;
+                                                                $areg=$row[0];
+                                                                $sname=$row[1];
+                                                                $sfname=$row[2];
+                                                                $course=$row[3];
+                                                                $adate=$row[4];
+                                                                $verify=$row[5];
+                                                                $stdid=$row[6];
                                                             
                                                         ?>
                                                         <th scope="row">
@@ -95,14 +96,14 @@ include"../database.php";
                                                             </div>
                                                         </th>
                                                         <td class="id"><?php echo $i; ?> </td>
-                                                        <td class=""><?php echo $row[0]; ?></td>
-                                                        <td class="customer_name"><?php echo $row[1]; ?></td>
-                                                        <td class="customer_name"><?php echo $row[2]; ?></td> 
-                                                        <td class="customer_name"><?php echo $row[3]; ?></td> 
-                                                        <td class="date"><?php echo $row[4]; ?></td>
+                                                        <td class=""><?php echo $areg; ?></td>
+                                                        <td class="customer_name"><?php echo $sname; ?></td>
+                                                        <td class="customer_name"><?php echo $sfname; ?></td> 
+                                                        <td class="customer_name"><?php echo $course; ?></td> 
+                                                        <td class="date"><?php echo $adate; ?></td>
                                                         <td class="status">
                                                         <?php
-                                                                if($row[5]==0)
+                                                                if($verify==0)
                                                                 {
                                                         ?>
                                                         <span class="badge bg-danger">Not Verify</span>
@@ -118,7 +119,7 @@ include"../database.php";
                                                         <td>
                                                             <div class="d-flex gap-2">
                                                                 <div class="edit">
-                                                                    <button class="btn btn-sm btn-success edit-item-btn" <?php if($row[5]==1) echo "hidden"; ?> data-bs-toggle="modal" data-bs-target="#showModal">Edit</button>
+                                                                    <a href="editstd.php?id=<?php echo $stdid ?>" class="btn btn-sm btn-success edit-item-btn" <?php if($verify==1) echo "hidden"; ?>>Edit</a>
                                                                 </div>
                                                                 <div class="remove">
                                                                     <button class="btn btn-sm btn-warning remove-item-btn" data-bs-toggle="modal" data-bs-target="#deleteRecordModal">View</button>

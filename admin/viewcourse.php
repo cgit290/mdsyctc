@@ -1,11 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
-    header("Location: login.php");
-    exit();
-}
-$username=$_SESSION['username'];
-$password=$_SESSION['password'];
+
 include"header.php"; 
 include"../database.php"; 
 
@@ -104,14 +98,8 @@ include"../database.php";
                                                             <td class="date" name="tedate"><?php echo $row[2]; ?></td>
                                                             <td>
                                                                 <div class="d-flex gap-2">
-                                                                    <div class="edit">  
-                                                                        <form action="editcourse.php" method="post">                                                                     
-                                                                            <!-- <a href="editcourse.php"> -->
-                                                                                <input type="hidden" name="id" value="<?php echo $row[3] ?>">
-                                                                                <button class="btn btn-sm btn-success edit-item-btn" name="submit" value="edit" type="submit">Edit</button>
-                                                                               
-                                                                            <!-- </a> -->
-                                                                        </form>
+                                                                    <div class="edit"> 
+                                                                            <a href="editcourse.php?id=<?php echo $row[3] ?>" class="btn btn-sm btn-success edit-item-btn">Edit</a>
                                                                     </div>
                                                                     
                                                                     <div class="remove">
