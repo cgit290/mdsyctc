@@ -67,7 +67,7 @@ include"../database.php";
         while ($row = mysqli_fetch_array($result1)) {
             $rid1 = $row[0];
         }
-
+        $rid1+=1;
         $refid1 = "YSMDS" . $ses1 . sprintf("%03d", $rid1);
         
 

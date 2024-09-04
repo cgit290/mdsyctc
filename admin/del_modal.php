@@ -15,6 +15,7 @@
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <button type="submit" class="btn btn-primary " name="submit" value="<?php echo $btnvalue ?>">Yes</button>
                 <input type="hidden" value="<?php echo $hivalue ?>" name="<?php echo $hname ?>">
+                <input type="hidden" value="<?php echo $hfile ?>" name="file">
                 </form>
             </div>
         </div><!-- /.modal-content -->

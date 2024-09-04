@@ -8,7 +8,7 @@ include"../database.php";
 $errors=[];
     
     $i=0;
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Prepare the SQL statement
         if($_POST['submit']=='add')
@@ -42,7 +42,7 @@ $errors=[];
             $photo_target = $photo_dir . $photo;
             
                 if (move_uploaded_file($_FILES['photo']['tmp_name'], $photo_target)) {
-                $sql = "INSERT INTO `noticetb`(`title`, `filename`) VALUES ('$title','$photo')";
+                $sql = "INSERT INTO `noticetb`(`title`, `filename`,active) VALUES ('$title','$photo',1)";
                 if ($con->query($sql)===TRUE){
                     echo "<script> alert('Notice add successful!'); </script>";
                     // header("location:session.php");
@@ -50,13 +50,14 @@ $errors=[];
                 }
             }
         }
-        if($_POST['submit']=='save')
+        if($_POST['submit']=='del')
         {
-            $ses=$_POST['session'];
-            $sdate=$_POST['sdate'];
-            $edate=$_POST['edate'];
-            $sql = "UPDATE sessiontb SET `startdate`='$sdate',`enddate`='$edate'";
+            $id=$_POST['id'];
+            $nfile=$_POST['file'];
+            unlink('uploads/notice/'.$nfile);
+            $sql = "DELETE FROM noticetb where id='$id'";
             if ($con->query($sql)===TRUE){
+                echo "<script> alert('Notice delete successful!'); </script>";
                 // echo "<script> alert('Session edit successful!'); </script>";
                 // header("location:session.php");
                 /*$id="";
@@ -72,27 +73,19 @@ $errors=[];
                         </script>"; */
                 // $_POST=array();
             }
-        }
-        if($_POST['submit']=='delete')
+        }   
+        if($_POST['submit']=='act')
         {
             $id=$_POST['id'];
-            $filename='uploads/notice/' . $id;
-            $sql = "DELETE FROM noticetb WHERE filename = '$id'";
-            unlink($filename);
-            if ($con->query($sql)===TRUE){
-                echo "<script> alert('Notice delete successful!'); </script>";
-                // header("location:session.php");
-               /* $id='';
-                $title="";
-                $message="Session delete successful!";
-                $btnvalue="";
-                $hivalue="";
-                $hname="";
-                include"info_modal.php";
-                echo "<script>
-                            $('#mds').modal('show');
-                        </script>"; */
+            // $filename='uploads/notice/' . $id;
+            $stmt = "UPDATE noticetb SET active = CASE WHEN active = 1 THEN 0 ELSE 1 END WHERE id = '$id'";
+            if (mysqli_query($con,$stmt)) {
+                echo "<script> alert('Notice active status change successful!'); </script>";
+            }else{
+                echo "error" . $con->error;
+                // echo "<script> alert('error!'); </script>";
             }
+            
         }
     
         // Execute the query
@@ -100,7 +93,7 @@ $errors=[];
         // header("location:session.php");
         
         // exit();
-    }
+    }   
 ?>
 
 <div class="main-content">
@@ -220,11 +213,16 @@ $errors=[];
                                                 </thead>
                                                 <tbody class="list form-check-all">
                                                     <?php
-                                                        $query="select id,title,filename,sdate from noticetb";
+                                                        $query="select id,title,filename,sdate,active from noticetb";
                                                         $result=mysqli_query($con,$query);
                                                         while($row=mysqli_fetch_array($result,MYSQLI_NUM))
                                                         {
                                                             $i=$i+1;
+                                                            $ids=$row[0];
+                                                            $title=$row[1];
+                                                            $file=$row[2];
+                                                            $date= $row[3]; 
+                                                            $act=$row[4];
                                                         
                                                     ?>
                                                     <tr>
@@ -235,25 +233,38 @@ $errors=[];
                                                             </div>
                                                         </th> -->
                                                         <td class="id" ><?php echo $i; ?> </td>
-                                                        <td class="" name="tsession"><?php echo $row[1]; ?></td>
-                                                        <td class="date" name="tsdate"><?php echo $row[2]; ?></td>
-                                                        <td class="date" name="tedate"><?php echo $row[3]; ?></td>
+                                                        <td class="" name="tsession"><?php echo $title; ?></td>
+                                                        <td class="date" name="tsdate"><?php echo $file ?></td>
+                                                        <td class="date" name="tedate"><?php echo $date ?></td>
                                                         <td>
                                                             <div class="d-flex gap-2">
                                                                 <div class="edit">
-                                                                    <a href="uploads/notice/<?php echo$row[2]; ?>" target="_blank" class="btn btn-sm btn-success edit-item-btn" name="view" role="button" id="view">View</a>
+                                                                    <a href="uploads/notice/<?php echo $file; ?>" target="_blank" class="btn btn-sm btn-primary edit-item-btn" name="view" role="button" id="view">View</a>
                                                                     
                                                                 </div>
                                                                 
                                                                 <div class="remove">
-                                                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button>
-                                                                    <!-- <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#myModal">Verify</button> -->
+                                                                    <input type="hidden" value="<?php echo $ids ?>" name="ids">
+                                                                    <?php if($act){ ?>
+                                                                    <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#myModal" value="act" name="submit" >Active</button>
+                                                                    <?php }else{ ?>
+                                                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#myModal" value="act" name="submit">In-Active</button>
+                                                                    <?php } ?>
+                                                                    <button type="button" class="btn btn-sm btn-secondary " data-bs-toggle="modal" data-bs-target="#dModal">Delete</button>
                                                                     <?php
                                                                         $id="myModal";
+                                                                        $title="Status Update";
+                                                                        $message="Are you sure?";
+                                                                        $btnvalue="act";
+                                                                        $hivalue=$ids;
+                                                                        $hname="id";
+                                                                        include"del_modal.php";
+                                                                        $id="dModal";
                                                                         $title="Delete";
                                                                         $message="Are you sure?";
-                                                                        $btnvalue="delete";
-                                                                        $hivalue=$row[2];
+                                                                        $btnvalue="del";
+                                                                        $hfile=$file;
+                                                                        $hivalue=$ids;
                                                                         $hname="id";
                                                                         include"del_modal.php";
                                                                      } 

@@ -1,12 +1,12 @@
 <?php
     session_start();
     ob_start();
-    if (!isset($_SESSION['username']) && !isset($_SESSION['password'])) {
+    if (!isset($_SESSION['adminid']) && !isset($_SESSION['adminpw'])) {
         header("Location: login.php");
         exit();
     }
-    $username=$_SESSION['username'];
-    $password=$_SESSION['password'];    
+    $username=$_SESSION['adminid'];
+    $password=$_SESSION['adminpw'];    
 ?>
 
 <!doctype html>
@@ -860,7 +860,7 @@
                             </div>
                         </li>
 
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLanding">
                                 <i class="ri-rocket-line"></i> <span data-key="t-landing">Exam</span>
                             </a>
@@ -874,7 +874,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> -->
 
                         <!-- <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-components"></span></li> -->
 
@@ -1208,7 +1208,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
-                    Design & Develop by Chandan Bhanja
+                    Design & Developed by Chandan Bhanja
                 </div>
             </div>
         </div>

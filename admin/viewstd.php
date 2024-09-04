@@ -135,12 +135,13 @@ include"../database.php";
                                                                         $hivalue=$row[0];
                                                                         $hname="regid";
                                                                         include"del_modal.php";
-                                                                     } 
+                                                                     
                                                                      ?>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                     </tr>
+                                                    <?php } ?>
                                                 </tbody>
                                             </table>
                                             <div class="noresult" style="display: none">

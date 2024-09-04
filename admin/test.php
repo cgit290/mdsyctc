@@ -17,7 +17,8 @@ include"../database.php";
             <div class="row">
                 <div class="col">
                     <div class="h-100">
-                                                            
+                                 <h1><?php $text='cb-1';
+                                  echo preg_match('/\d+/', $text, $matches); ?></h1>                           
                     </div>
                 </div>
             </div>

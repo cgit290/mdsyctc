@@ -1,17 +1,46 @@
 <?php
 
 include"header.php"; 
+include"../database.php";
 
+$stmtAdmission = "SELECT * FROM admissiontb";
+$admissionResult = $con->query($stmtAdmission);
 
-?>
-    
-    <script>
-        // Pass PHP session data to JavaScript
-        var sessionData = <?php echo json_encode($_SESSION); ?>;
-        
-        // Log the session data to the browser console
-        console.log('Session Data:', sessionData);
-    </script>        
+if ($admissionResult) {
+    $numStd = $admissionResult->num_rows;
+} else {
+    echo "Error retrieving admissions: " . $con->error;
+}
+
+$stmtCourse = "SELECT * FROM coursetb";
+$courseResult = $con->query($stmtCourse);
+
+if ($courseResult) {
+    $numCourse = $courseResult->num_rows;
+} else {
+    echo "Error retrieving courses: " . $con->error;
+}
+
+$stmtNotice = "SELECT * FROM noticetb where active=1";
+$NoticeResult = $con->query($stmtNotice);
+
+if ($NoticeResult) {
+    $numNotice = $NoticeResult->num_rows;
+} else {
+    echo "Error retrieving Notices: " . $con->error;
+}
+
+$today=date('Y-m-d');
+$stmtSession = "SELECT * FROM Sessiontb WHERE startdate <= CURDATE() AND enddate >= CURDATE();";
+$SessionResult = $con->query($stmtSession);
+
+if ($SessionResult) {
+    $numSession = $SessionResult->num_rows;
+} else {
+    echo "Error retrieving Sessions: " . $con->error;
+}
+
+?>     
     
    
 
@@ -31,8 +60,8 @@ include"header.php";
                                     <div class="col-12">
                                         <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                                             <div class="flex-grow-1">
-                                                <h4 class="fs-16 mb-1">Good Morning, Anna!</h4>
-                                                <p class="text-muted mb-0">Here's what's happening with your store today.</p>
+                                                <!-- <h4 class="fs-16 mb-1">Good Morning, Anna!</h4>
+                                                <p class="text-muted mb-0">Here's what's happening with your store today.</p> -->
                                             </div>
                                             <div class="mt-3 mt-lg-0">
                                                 <form action="javascript:void(0);">
@@ -71,22 +100,22 @@ include"header.php";
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1 overflow-hidden">
-                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Total Earnings</p>
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Total Students</p>
                                                     </div>
-                                                    <div class="flex-shrink-0">
+                                                    <!-- <div class="flex-shrink-0">
                                                         <h5 class="text-success fs-14 mb-0">
                                                             <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +16.24 %
                                                         </h5>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                                     <div>
-                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="559.25">0</span>k </h4>
-                                                        <a href="#" class="text-decoration-underline">View net earnings</a>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="<?php echo $numStd ?>">0</span></h4>
+                                                        <!-- <a href="#" class="text-decoration-underline">View net earnings</a> -->
                                                     </div>
                                                     <div class="avatar-sm flex-shrink-0">
-                                                        <span class="avatar-title bg-success-subtle rounded fs-3">
-                                                            <i class="bx bx-dollar-circle text-success"></i>
+                                                        <span class="avatar-title bg-primary rounded fs-3">
+                                                            <i class="bx bx-user-circle "></i>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -100,22 +129,22 @@ include"header.php";
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1 overflow-hidden">
-                                                     <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Orders</p>
+                                                     <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Total Courses</p>
                                                     </div>
-                                                    <div class="flex-shrink-0">
+                                                    <!-- <div class="flex-shrink-0">
                                                         <h5 class="text-danger fs-14 mb-0">
                                                             <i class="ri-arrow-right-down-line fs-13 align-middle"></i> -3.57 %
                                                         </h5>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                                     <div>
-                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="36894">0</span></h4>
-                                                        <a href="#" class="text-decoration-underline">View all orders</a>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="<?php echo $numCourse ?>"></span></h4>
+                                                        <!-- <a href="#" class="text-decoration-underline">View all orders</a> -->
                                                     </div>
                                                     <div class="avatar-sm flex-shrink-0">
                                                         <span class="avatar-title bg-info-subtle rounded fs-3">
-                                                            <i class="bx bx-shopping-bag text-info"></i>
+                                                            <i class="bx bx bxs-detail text-info"></i>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -129,22 +158,22 @@ include"header.php";
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1 overflow-hidden">
-                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Customers</p>
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Active Notices</p>
                                                     </div>
-                                                    <div class="flex-shrink-0">
+                                                    <!-- <div class="flex-shrink-0">
                                                         <h5 class="text-success fs-14 mb-0">
                                                             <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +29.08 %
                                                         </h5>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                                     <div>
-                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="183.35">0</span>M </h4>
-                                                        <a href="#" class="text-decoration-underline">See details</a>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="<?php echo $numNotice; ?>"></span> </h4>
+                                                        <!-- <a href="#" class="text-decoration-underline">See details</a> -->
                                                     </div>
                                                     <div class="avatar-sm flex-shrink-0">
                                                         <span class="avatar-title bg-warning-subtle rounded fs-3">
-                                                            <i class="bx bx-user-circle text-warning"></i>
+                                                            <i class="bx bx bx-file text-warning"></i>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -158,22 +187,22 @@ include"header.php";
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-grow-1 overflow-hidden">
-                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> My Balance</p>
+                                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0"> Active Session</p>
                                                     </div>
-                                                    <div class="flex-shrink-0">
+                                                    <!-- <div class="flex-shrink-0">
                                                         <h5 class="text-muted fs-14 mb-0">
                                                             +0.00 %
                                                         </h5>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                                     <div>
-                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="165.89">0</span>k </h4>
-                                                        <a href="#" class="text-decoration-underline">Withdraw money</a>
+                                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="<?php echo $numSession ?>"></span></h4>
+                                                        <!-- <a href="#" class="text-decoration-underline">Withdraw money</a> -->
                                                     </div>
                                                     <div class="avatar-sm flex-shrink-0">
                                                         <span class="avatar-title bg-primary-subtle rounded fs-3">
-                                                            <i class="bx bx-wallet text-primary"></i>
+                                                            <i class="bx bx-time-five text-primary"></i>
                                                         </span>
                                                     </div>
                                                 </div>

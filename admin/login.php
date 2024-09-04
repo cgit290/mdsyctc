@@ -33,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Validate the password
         if ($pass==$password) {
             // Password is correct, start a session
-            $_SESSION['username'] = $username;
-            $_SESSION['password'] = $password;
+            $_SESSION['adminid'] = $username;
+            $_SESSION['adminpw'] = $password;
             
 
             // Redirect to the appropriate dashboard

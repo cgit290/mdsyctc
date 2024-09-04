@@ -86,7 +86,7 @@
                             $ddpt2=strtok(" ");
                             $dname= substr($ddpt1,0,1).substr($ddpt2,0,1);
                     ?>
-                            <div class="col-md-6 col-lg-4 col-xl-3" data-sal-delay="200" data-sal="slide-up" data-sal-duration="800">
+                            <div class="col-md-6 col-lg-4 col-xl-4" data-sal-delay="200" data-sal="slide-up" data-sal-duration="800">
                             <div class="edu-course course-style-1 course-box-shadow hover-button-bg-white">
                                     <div class="inner">
                                         <div class="thumbnail">
@@ -100,7 +100,7 @@
                                         <div class="content">
                                             <span class="course-level"><?php echo "$dept"; ?></span>
                                             <h6 class="title">
-                                                <a href="<?php echo strtolower($dname); ?>.php"><?php echo "$fcourse"; ?></a>
+                                                <a href="<?php echo strtolower($dname); ?>.php"><?php echo "$fcourse($course)"; ?></a>
                                             </h6>
                                             <div class="course-rating">
                                                 <div class="rating">
